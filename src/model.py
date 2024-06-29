@@ -145,6 +145,18 @@ class ProtT5Frozen(BaseModel):
 class ESM1bFrozen(BaseModel):
     def __init__(self):
         super().__init__(1280)
+
+class OneHotEncoder(BaseModel):
+    def __init__(self):
+        super().__init__(33)
+
+class BLOSUMEncoder(BaseModel):
+    def __init__(self):
+        super().__init__(20)
+
+class ESM2bFrozen(BaseModel):
+    def __init__(self):
+        super().__init__(1280)
         
 
 pos_weights_annot = torch.tensor([0.23, 0.92, 0.98, 2.63, 5.64, 1.60, 2.37, 1.87, 2.03])

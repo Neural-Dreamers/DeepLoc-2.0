@@ -131,13 +131,13 @@ def read_fasta(fastafile):
 
 import h5py
 import numpy as np
-import pickle5
+import pickle
 from sklearn.model_selection import ShuffleSplit
 from src.constants import *
 
 def get_swissprot_df(clip_len):  
     with open(SIGNAL_DATA, "rb") as f:
-        annot_df = pickle5.load(f)
+        annot_df = pickle.load(f)
     nes_exclude_list = ['Q7TPV4','P47973','P38398','P38861','Q16665','O15392','Q9Y8G3','O14746','P13350','Q06142']
     swissprot_exclusion_list = ['Q04656-5','O43157','Q9UPN3-2']
     def clip_middle_np(x):
@@ -175,7 +175,7 @@ def convert_to_binary(x):
 
 def get_swissprot_ss_Xy(save_path, fold, clip_len):
     with open(SIGNAL_DATA, "rb") as f:
-        annot_df = pickle5.load(f)
+        annot_df = pickle.load(f)
     nes_exclude_list = ['Q7TPV4','P47973','P38398','P38861','Q16665','O15392','Q9Y8G3','O14746','P13350','Q06142']
     swissprot_exclusion_list = ['Q04656-5','O43157','Q9UPN3-2']
     def clip_middle_np(x):
@@ -281,6 +281,8 @@ class TrainBatchConverter(object):
         embedding_tensor = torch.zeros((batch_size, max_len, self.embed_len), dtype=torch.float32)
         np_mask = torch.zeros((batch_size, max_len))
         target_annots = torch.zeros((batch_size, max_len), dtype=torch.int64)
+        # print(f'target_annots: {target_annots.size()}')
+        #         # print(f'embedding_tensor: {embedding_tensor.size()}')
         labels = []
         lengths = []
         strs = []
@@ -291,6 +293,14 @@ class TrainBatchConverter(object):
             lengths.append(len(seq_str))
             strs.append(seq_str)
             targets[i] = torch.tensor(target)
+            # if len(seq_str) < 1022:
+            #     print(f'seq_str: {seq_str}')
+            #     print(f'len(seq_str): {len(seq_str)}')
+            #     print(f'target: {target}')
+            #     print(f'target_annot: {target_annot}')
+            #     print(f'label: {label}')
+            #     print(f'np.array(embedding): {np.array(embedding).shape}')
+
             embedding_tensor[i, :len(seq_str)] = torch.tensor(np.array(embedding))
             target_annots[i, :len(seq_str)] = torch.tensor(target_annot)
             np_mask[i, :len(seq_str)] = 1

@@ -47,7 +47,7 @@ def get_train_model_attributes(model_type):
             1280
         )
     elif model_type == ACCURATE:
-        alphabet = T5Tokenizer.from_pretrained("Rostlab/prot_t5_xl_uniref50", do_lower_case=False )
+        alphabet = T5Tokenizer.from_pretrained("Rostlab/prot_t5_xl_uniref50", do_lower_case=False)
         
         return ModelAttributes(
             model_type,
@@ -58,6 +58,47 @@ def get_train_model_attributes(model_type):
             "outputs/prott5/",
             4000,
             1024
+        )
+    elif model_type == ONEHOT:
+        with open("models/OneHot_alphabet.pkl", "rb") as f:
+            alphabet = pickle.load(f)
+
+        return ModelAttributes(
+            model_type,
+            OneHotEncoder,
+            alphabet,
+            EMBEDDINGS[ONEHOT]["embeds"],
+            "models/models_onehot",
+            "outputs/onehot/",
+            1022,
+            33
+        )
+    elif model_type == BLOSUM:
+        with open("models/BLOSUM_alphabet.pkl", "rb") as f:
+            alphabet = pickle.load(f)
+
+        return ModelAttributes(
+            model_type,
+            BLOSUMEncoder,
+            alphabet,
+            EMBEDDINGS[BLOSUM]["embeds"],
+            "models/models_blosum",
+            "outputs/blosum/",
+            1022,
+            20
+        )
+    elif model_type == FAST2:
+        with open("models/ESM2b_alphabet.pkl", "rb") as f:
+            alphabet = pickle.load(f)
+        return ModelAttributes(
+            model_type,
+            ESM2bFrozen,
+            alphabet,
+            EMBEDDINGS[FAST2]["embeds"],
+            "models/models_esm2b",
+            "outputs/esm2b/",
+            1022,
+            1280
         )
     else:
         raise Exception("wrong model type provided expected Fast,Accurate got", model_type)

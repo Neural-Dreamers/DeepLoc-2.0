@@ -1,10 +1,16 @@
-# DeepLoc 2.0
+# Protein Sequence embedding comparison for Sub-cellular localization using DeepLoc 2.0
 
-Multi-label subcellular localization and sorting signal prediction based on protein foundation models (https://github.com/agemagician/ProtTrans, https://github.com/facebookresearch/esm).
+Multi-label subcellular localization based on traditional and Machine Learning based embeddings.
 
-Prediction webserver is available at https://services.healthtech.dtu.dk/services/DeepLoc-2.0/
+This work has been inspired by,
+1. DeepLoc 2.0: multi-label subcellular localization prediction using protein language models
+2. Amino Acid Encoding Methods for Protein Sequences: A Comprehensive Review and Assessment
+3. Amino acid encoding for deep learning applications
 
-More details can be found in the paper https://academic.oup.com/nar/article/50/W1/W228/6576357
+More details can be found in the papers 
+https://academic.oup.com/nar/article/50/W1/W228/6576357, 
+https://link.springer.com/article/10.1186/s12859-020-03546-x and
+https://ieeexplore.ieee.org/abstract/document/8692651
 
 
 ## Data
@@ -14,11 +20,11 @@ The 'data_files' folder contains the data for training
 3. Processed FASTA files for generating embeddings
 
 ## Models
-Two models dubbed Fast (ESM1b) and Accurate (ProtT5) are used. `<MODEL-TYPE>` refers to one of these. 
+Models dubbed Fast (ESM1b), Accurate (ProtT5), OneHot, BLOSUM (BLOSUM62) and Fast2 (ESM2b) are used. `<MODEL-TYPE>` refers to one of these. 
 
 ## Setup
 
-It is recommened to setup a conda environment using
+It is recommended to set up a conda environment using
 
 `conda env create -f environment.yml`
 
@@ -28,29 +34,6 @@ Training is divided into two stages:
 
 `python train_sl.py --model <MODEL-TYPE>`
 1. Generate and store embeddings for faster training. Note: h5 files of ~30-40 GB are stored in "data_files/embeddings".
-2. Train subcellular localization and interpretable attention.
+2. Train sub-cellular localization and interpretable attention.
 3. Generate predictions and intermediate representations for sorting signal prediction.
 4. Compute metrics on the SwissProt CV dataset.
-
-
-`python train_ss.py --model <MODEL-TYPE>`
-1. Train sorting signal prediction
-2. Predict and compute metrrics on the SwissProt CV dataset.
-
-## Citation
-
-If you found this useful please consider citing
-
-```
-@article{deeploc22022,
-    author = {\textbf{Vineet Thumuluri}* and Almagro Armenteros*, José Juan and Johansen, Alexander Rosenberg and Nielsen, Henrik and Winther, Ole},
-    title = "{DeepLoc 2.0: multi-label subcellular localization prediction using protein language models}",
-    journal = {Nucleic Acids Research},
-    year = {2022},
-    month = {04},
-    issn = {0305-1048},
-    doi = {10.1093/nar/gkac278},
-    url = {https://doi.org/10.1093/nar/gkac278},
-    eprint = {https://academic.oup.com/nar/advance-article-pdf/doi/10.1093/nar/gkac278/43515314/gkac278.pdf},
-}
-```
