@@ -102,5 +102,4 @@ def get_train_model_attributes(model_type):
         )
     else:
         raise Exception("wrong model type provided expected Fast,Accurate got", model_type)
-    
 
